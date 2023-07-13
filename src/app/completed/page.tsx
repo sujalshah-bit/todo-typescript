@@ -5,7 +5,7 @@ import { useTodos } from "@/store/Todo";
 import Link from "next/link";
 import React from "react";
 
-const completed = () => {
+const Completed = () => {
   const { todos } = useTodos();
   const fliterTodos = todos.filter((todo) => todo.completed === true);
 
@@ -30,4 +30,4 @@ const completed = () => {
   );
 };
 
-export default completed;
+export default Completed;

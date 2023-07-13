@@ -22,8 +22,13 @@ export const todosContext = createContext<TodosContext | null>(null);
 
 // Create the TodosProvider component
 export const TodosProvider = ({ children }: { children: ReactNode }) => {
-    const storedTodos = localStorage.getItem('todos');
-    const initialTodos: Todo[] = storedTodos ? JSON.parse(storedTodos) : [];
+  let storedTodos: string | null = null;
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    storedTodos = localStorage.getItem('todos');
+  }
+  
+  const initialTodos: Todo[] = storedTodos ? JSON.parse(storedTodos) : [];
   
     // State for storing the todos
     const [todos, setTodos] = useState<Todo[]>(initialTodos);
@@ -65,7 +70,9 @@ export const TodosProvider = ({ children }: { children: ReactNode }) => {
   
     // Update local storage whenever todos change
     useEffect(() => {
-      localStorage.setItem('todos', JSON.stringify(todos));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('todos', JSON.stringify(todos));
+      }
     }, [todos]);
   
     // Provide the context value and render the children components
